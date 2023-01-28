@@ -1,16 +1,16 @@
 package com.driver.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Entity
+@Table
 public class Spot {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Enumerated
     private SpotType spotType;
 
     private int pricePerHour;
@@ -21,9 +21,21 @@ public class Spot {
     @JoinColumn
     private ParkingLot parkingLot;
 
-    @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
     private List<Reservation> reservationList;
 
+
+    public Spot() {
+    }
+
+    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
+        this.id = id;
+        this.spotType = spotType;
+        this.pricePerHour = pricePerHour;
+        this.occupied = occupied;
+        this.parkingLot = parkingLot;
+        this.reservationList = reservationList;
+    }
 
     public int getId() {
         return id;
@@ -32,7 +44,6 @@ public class Spot {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public SpotType getSpotType() {
         return spotType;
@@ -73,28 +84,4 @@ public class Spot {
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
     }
-
-    //all args
-    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied,
-                ParkingLot parkingLot, List<Reservation> reservationList) {
-        this.id = id;
-        this.spotType = spotType;
-        this.pricePerHour = pricePerHour;
-        this.occupied = occupied;
-        this.parkingLot = parkingLot;
-        this.reservationList = reservationList;
-    }
-
-    public Spot(SpotType spotType, int pricePerHour, boolean occupied,
-                ParkingLot parkingLot, List<Reservation> reservationList) {
-        this.spotType = spotType;
-        this.pricePerHour = pricePerHour;
-        this.occupied = occupied;
-        this.parkingLot = parkingLot;
-        this.reservationList = reservationList;
-    }
-    //no args
-    public Spot() {
-    }
-
 }
